@@ -604,7 +604,10 @@ def swin_transformer_tiny(pretrained=True, **kwargs):
     model = SwinTransformer(embed_dim=96,depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24],
                  window_size=7,drop_path_rate=0.2, **kwargs)
     if pretrained:
-        model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_tiny']))['model'])
+        if torch.cuda.is_available():
+            model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_tiny']))['model'])
+        else:
+            model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_tiny']), map_location=torch.device('cpu'))['model'])
     return model
 
 
@@ -619,7 +622,10 @@ def swin_transformer_small(pretrained=True, **kwargs):
     model = SwinTransformer(embed_dim=96, depths=[ 2, 2, 18, 2 ], num_heads=[ 3, 6, 12, 24 ],
                  window_size=7,drop_path_rate=0.3, **kwargs)
     if pretrained:
-        model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_small']))['model'])
+        if torch.cuda.is_available():
+            model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_small']))['model'])
+        else:
+            model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_small']), map_location=torch.device('cpu'))['model']) 
     return model
 
 
@@ -634,7 +640,10 @@ def swin_transformer_base(pretrained=True, **kwargs):
     model = SwinTransformer(embed_dim=128, depths=[ 2, 2, 18, 2 ], num_heads=[ 4, 8, 16, 32 ],
                  window_size=7,drop_path_rate=0.5, **kwargs)
     if pretrained:
-        model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_base']))['model'])
+        if torch.cuda.is_available():
+            model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_base']))['model'])
+        else:
+            model.load_state_dict(torch.load(os.path.join(models_dir, model_name['swin_transformer_base']), map_location=torch.device('cpu'))['model']) 
     return model
 
 
