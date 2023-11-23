@@ -9,9 +9,6 @@ from .graph import normalize_digraph
 from .basic_block import *
 import os
 
-# Device
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-
 class GNN(nn.Module):
     def __init__(self, in_channels, num_classes, neighbor_num=4, metric='dots'):
         super(GNN, self).__init__()

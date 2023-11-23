@@ -10,9 +10,6 @@ import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 
-# Device
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-
 
 
 models_dir = os.path.abspath('megraphau/checkpoints')
