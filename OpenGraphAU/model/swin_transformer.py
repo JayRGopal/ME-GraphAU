@@ -11,10 +11,8 @@ import torch.utils.checkpoint as checkpoint
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 
 # Device
-use_cuda = torch.cuda.is_available()
-device = 'cuda:0' if use_cuda else 'cpu'
-if use_cuda:
-  torch.cuda.empty_cache()
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+
 
 
 models_dir = os.path.abspath('megraphau/checkpoints')
@@ -598,7 +596,7 @@ class SwinTransformer(nn.Module):
         return flops
 
 
-def swin_transformer_tiny(pretrained=True, **kwargs):
+def swin_transformer_tiny(device, pretrained=True, **kwargs):
     """VGG 16-layer model (configuration "D") with batch normalization
 
     Args:
@@ -613,7 +611,7 @@ def swin_transformer_tiny(pretrained=True, **kwargs):
     return model
 
 
-def swin_transformer_small(pretrained=True, **kwargs):
+def swin_transformer_small(device, pretrained=True, **kwargs):
     """VGG 16-layer model (configuration "D") with batch normalization
 
     Args:
@@ -629,7 +627,7 @@ def swin_transformer_small(pretrained=True, **kwargs):
 
 
 
-def swin_transformer_base(pretrained=True, **kwargs):
+def swin_transformer_base(device, pretrained=True, **kwargs):
     """VGG 16-layer model (configuration "D") with batch normalization
 
     Args:
@@ -646,7 +644,7 @@ def swin_transformer_base(pretrained=True, **kwargs):
 
 
 if __name__=="__main__":
-    model = swin_transformer_base()
+    model = swin_transformer_base(device='cpu')
     input = torch.randn(1,3,224,224)
     print(model)
     output = model(input)

@@ -7,7 +7,10 @@ from .swin_transformer import swin_transformer_tiny, swin_transformer_small, swi
 from .resnet import resnet18, resnet50, resnet101
 from .graph import normalize_digraph
 from .basic_block import *
+import os
 
+# Device
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 class GNN(nn.Module):
     def __init__(self, in_channels, num_classes, neighbor_num=4, metric='dots'):
@@ -137,15 +140,16 @@ class Head(nn.Module):
 
 
 class MEFARG(nn.Module):
-    def __init__(self, num_main_classes = 27, num_sub_classes = 14, backbone='swin_transformer_base', neighbor_num=4, metric='dots'):
+    def __init__(self, device, num_main_classes = 27, num_sub_classes = 14, backbone='swin_transformer_base', neighbor_num=4, metric='dots'):
         super(MEFARG, self).__init__()
+        self.device = device
         if 'transformer' in backbone:
             if backbone == 'swin_transformer_tiny':
-                self.backbone = swin_transformer_tiny()
+                self.backbone = swin_transformer_tiny(device=self.device)
             elif backbone == 'swin_transformer_small':
-                self.backbone = swin_transformer_small()
+                self.backbone = swin_transformer_small(device=self.device)
             else:
-                self.backbone = swin_transformer_base()
+                self.backbone = swin_transformer_base(device=self.device)
             self.in_channels = self.backbone.num_features
             self.out_channels = self.in_channels // 2
             self.backbone.head = None
